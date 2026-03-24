@@ -1,0 +1,141 @@
+\documentclass{beamer}
+\usetheme{Madrid}
+
+\definecolor{myblue}{RGB}{0,70,140}
+\definecolor{mylightblue}{RGB}{200,220,255}
+\setbeamercolor{palette primary}{bg=myblue,fg=white}
+\setbeamercolor{palette secondary}{bg=myblue!80,fg=white}
+\setbeamercolor{palette tertiary}{bg=myblue!60,fg=white}
+\setbeamercolor{palette quaternary}{bg=myblue,fg=white}
+\setbeamercolor{structure}{fg=myblue}
+\setbeamercolor{block title}{bg=myblue,fg=white}
+\setbeamercolor{block body}{bg=mylightblue!40}
+\setbeamercolor{frametitle}{bg=myblue,fg=white}
+\setbeamercolor{title}{bg=myblue,fg=white}
+\setbeamercolor{author in head/foot}{bg=myblue!80,fg=white}
+\setbeamercolor{title in head/foot}{bg=myblue,fg=white}
+
+\usepackage{amsmath, amssymb}
+\setbeamertemplate{navigation symbols}{}
+
+\title{1.2.52}
+\author{Shriyansh Chawda EE25BTECH11052}
+
+\begin{document}
+	
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	%------------------------------------------------------------
+	\begin{frame}{Question}
+		Let $y(x) = \displaystyle\sum_{n=0}^{\infty} a_n x^n$ be a solution of
+		$\dfrac{d^2y}{dx^2} + xy = 0$.
+		
+		\vspace{0.6em}
+		(a) The value of $a_2$ is: (i) 0 \quad(ii)1 \quad(iii)2 \quad(iv)3
+		
+		\vspace{0.6em}
+		(b) The solution satisfying $y(0)=1$, $y'(0)=0$ is:
+		
+		\vspace{0.4em}
+		\begin{tabular}{ll}
+			(i)~$1 + \dfrac{x^2}{2!\cdot3} - \dfrac{x^4}{2\cdot3\cdot5\cdot6} + \cdots$ &
+			(iii)~$1 + \cdots$ \\[10pt]
+			(ii)~$1 - \dfrac{2\cdot3\,x^2}{1} + \cdots$ &
+			(iv)~$1 - \cdots$
+		\end{tabular}
+	\end{frame}
+	
+	%------------------------------------------------------------
+	\begin{frame}{Setting Up the Recurrence}
+		Substitute $y = \sum_{n=0}^{\infty} a_n x^n$:
+		\begin{equation}
+			y'' = \sum_{n=0}^{\infty}(n+2)(n+1)\,a_{n+2}\,x^n, \qquad
+			xy  = \sum_{n=1}^{\infty} a_{n-1}\,x^n.
+		\end{equation}
+		Adding and equating each power of $x$ to zero:
+		\\
+		\begin{equation}
+			\dfrac{d^2y}{dx^2} + xy = 0
+		\end{equation}
+		\begin{equation}
+			(2a_2) + (6a_3 + a_0)x + (12a_4 + a_1)x^2 + (20a_5 + a_2)x^3 + \dots = 0
+		\end{equation}
+		
+		\begin{equation}
+			n=0:\quad 2a_2 = 0 \;\Longrightarrow\; a_2 = 0.
+		\end{equation}
+		\begin{equation}
+			n\ge 1:\quad (n+2)(n+1)\,a_{n+2} + a_{n-1} = 0.
+		\end{equation}
+		Re-indexing ($n \to n+1$):
+		\begin{equation}
+			a_{n+3} = -\frac{a_n}{(n+3)(n+2)}, \qquad n \ge 0.
+		\end{equation}
+		
+	\end{frame}
+	
+	%------------------------------------------------------------
+	\begin{frame}{Part (a) --- Answer}
+		From the $n=0$ equation:
+		\begin{equation}
+			2a_2 = 0 \;\Longrightarrow\; a_2 = 0.
+		\end{equation}
+		
+		{Answer: (i) \; $a_2 = 0$}
+		
+	\end{frame}
+	
+	%------------------------------------------------------------
+	\begin{frame}{Part (b) --- Applying Initial Conditions}
+		$y(0)=1 \Rightarrow a_0 = 1$, \quad $y'(0)=0 \Rightarrow a_1 = 0$, \quad $a_2=0$.
+		
+		\medskip
+		The recurrence propagates in three independent streams:\\
+		$\{a_0, a_3, a_6,\ldots\}$, \; $\{a_1, a_4,\ldots\}$, \; $\{a_2, a_5,\ldots\}$.
+		
+		\medskip
+		Since $a_1=a_2=0$, only the first stream survives:
+		
+		
+		\begin{align}
+			a_3 &= -\frac{a_0}{3\cdot 2}  = -\frac{1}{6}  \\[4pt]
+			a_6 &= -\frac{a_3}{6\cdot 5}  = \phantom{-}\frac{1}{180} \\[4pt]
+			a_9 &= -\frac{a_6}{9\cdot 8}  = -\frac{1}{12960} \quad \ldots
+		\end{align}
+		
+	\end{frame}
+	
+	%------------------------------------------------------------
+	\begin{frame}{Part (b) --- The Series Solution}
+		\begin{equation}
+			y(x) = 1 - \frac{x^3}{3\cdot 2} + \frac{x^6}{6\cdot 5\cdot 3\cdot 2}
+			- \frac{x^9}{9\cdot 8\cdot 6\cdot 5\cdot 3\cdot 2} + \cdots
+		\end{equation}
+		
+		
+		\begin{equation}
+			y(x) = 1 - \frac{x^3}{6} + \frac{x^6}{180} - \frac{x^9}{12960} + \cdots
+		\end{equation}
+		
+		
+		The leading correction after $1$ is $-x^3/6$ \;(negative).
+		
+		Answer: (iv) \; $y(x) = 1 - \dfrac{x^3}{6} + \cdots$
+		
+	\end{frame}
+	
+	%------------------------------------------------------------
+	\begin{frame}{Plot}
+		% TODO: \usepackage{graphicx} required
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\linewidth]{plt}
+			\caption{}
+			\label{fig:plt}
+		\end{figure}
+		
+	\end{frame}
+	
+\end{document}
