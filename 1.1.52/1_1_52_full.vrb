@@ -1,0 +1,29 @@
+\frametitle{Python Verification — Bode Plot}
+\begin{lstlisting}[language=Python, basicstyle=\tiny\ttfamily,
+		keywordstyle=\color{blue}, commentstyle=\color{gray},
+		stringstyle=\color{orange}, breaklines=true]
+		f = np.logspace(2, 7, 2000)
+		w = 2 * np.pi * f
+		_, H = signal.freqs(num, den, worN=w)
+		mag_dB = 20 * np.log10(np.abs(H))
+		
+		fig, ax = plt.subplots(figsize=(9, 5))
+		ax.semilogx(f / 1e3, mag_dB, 'b-', lw=2.5, label='Sallen-Key LPF (computed)')
+		ax.axhline(20*np.log10(K),     color='gray',  ls='--', lw=1, label=f'DC gain = {20*np.log10(K):.1f} dB')
+		ax.axhline(20*np.log10(K) - 3, color='green', ls='--', lw=1, label=f'DC gain - 3 dB = {20*np.log10(K)-3:.1f} dB')
+		ax.axvline(f0 / 1e3,           color='red',   ls='--', lw=1, label=f'f0 = {f0/1e3:.2f} kHz')
+		
+		f_slope = np.array([1e5, 1e6])
+		ref_dB  = 20 * np.log10(K) - 40
+		ax.semilogx(f_slope/1e3, [ref_dB, ref_dB-40], 'k:', lw=1.5, label='-40 dB/decade')
+		
+		ax.set_xlabel('Frequency (kHz)');  ax.set_ylabel('|Vo/Vi| (dB)')
+		ax.set_xlim([0.1, 1e4]);           ax.set_ylim([-60, 10])
+		ax.legend(fontsize=9);             ax.grid(True, which='both', alpha=0.35)
+		plt.tight_layout();                plt.savefig('bode_1_1_52.png', dpi=150)
+		
+		# Verify gain at f0
+		_, H_at_f0 = signal.freqs(num, den, worN=[w0])
+		print(f"Gain at f0: {20*np.log10(abs(H_at_f0[0])):.3f} dB  "
+		f"(expected {20*np.log10(K)-3:.3f} dB)")
+	\end{lstlisting}
